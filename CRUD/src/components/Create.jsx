@@ -2,56 +2,50 @@ import { useState } from "react";
 import { nanoid } from "nanoid";
 
 const Create = (props) => {
-  const {setTodos, todos} = props;
+  const { setTodos, todos } = props;
   const [title, settitle] = useState("");
 
   const submitHandler = (e) => {
     e.preventDefault();
+     if (!title.trim()) return;
 
     const newTodo = {
       id: nanoid(),
       title: title,
       isCompleated: false,
-    }
-    setTodos([...todos, newTodo])
-    
+    };
+    setTodos([...todos, newTodo]);
+
     settitle("");
-  }
+  };
   return (
-    <div className="">
-        {/* Title */}
-        <h1 className="text-center text-3xl font-bold text-white tracking-wide drop-shadow-sm">
-          Task Manager
-        </h1>
+    <div className=" w-full max-w-[700px] mx-auto px-4 md:px-10">
+      <h1 className="text-4xl sm:text-5xl lg:text-6xl font-thin mb-10">
+        Set <span className="text-red-400">Riminders</span> for <br /> tasks
+      </h1>
 
-        {/* Input Card */}
-        <div className="bg-black/30 border border-white/10 rounded-2xl p-5 space-y-5 shadow-inner shadow-black/50">
-          <form onSubmit={submitHandler}>
-            {/* Input */}
-            <input
-              type="text"
-              placeholder="Write your task..."
-              onChange={(e) => settitle(e.target.value)}
-              value={title}
-              className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder-gray-400
-                       focus:outline-none focus:ring-2 focus:ring-blue-500/70 shadow-lg shadow-black/40
-                       transition-all duration-200"
-            />
+      <form onSubmit={submitHandler}>
+        <input
+          
+          type="text"
+          placeholder="Write your task..."
+          onChange={(e) => settitle(e.target.value)}
+          value={title}
+          className="border-b w-full text-xl sm:text-2xl font-thin truncate outline-0 focus:scale-95 px-2 py-2 mb-5 bg-gray-800"
+        />
+        <br />
+        <br />
 
-            {/* Add Button */}
-            <button
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 
-                       text-white font-semibold tracking-wide shadow-xl
-                       hover:shadow-purple-500/40 hover:scale-[1.03] active:scale-[0.98]
-                       transition-all duration-200"
-            >
-              Add Task
-            </button>
-          </form>
-          <hr />
-        </div>
+        <button
+          className="text-lg sm:text-xl cursor-pointer px-6 sm:px-10 py-3 border shadow-lg shadow-gray-600/50 rounded 
+  transition-all duration-150 active:scale-95 active:bg-gray-700
+          "
+        >
+          Create Todo
+        </button>
+      </form>
     </div>
-  )
-}
+  );
+};
 
-export default Create
+export default Create;
