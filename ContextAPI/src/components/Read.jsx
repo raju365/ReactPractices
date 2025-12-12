@@ -1,8 +1,13 @@
 import { MdDelete } from "react-icons/md";
 import { AnimatePresence, motion } from "motion/react";
 import { toast } from "react-toastify";
+import { useContext } from "react";
+import { todoContext } from "../Wrapper";
 
-const Read = ({ todos, setTodos }) => {
+const Read = () => {
+
+  const [todos, setTodos] = useContext(todoContext)
+
   const deleteHandler = (id) => {
     const filteredtodo = todos.filter((todo) => todo.id != id);
     setTodos(filteredtodo);
