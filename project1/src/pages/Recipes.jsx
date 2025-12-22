@@ -1,18 +1,15 @@
 import { useContext } from "react";
 import { recipecontext } from "../context/RecipeContext";
+import RecipeCard from "../components/RecipeCard";
 
 const Recipes = () => {
   const { recipes } = useContext(recipecontext);
-  const renderRecipes = recipes.map(recipe =>(
-    <div key={recipe.id}>
-      <h2>{recipe.title}</h2>
-      <img src={recipe.image} alt={recipe.title} />
-      <p>{recipe.description}</p>
 
-    </div>
+  const renderRecipes = recipes.map((recipe) => (
+    <RecipeCard key={recipe.id} recipe={recipe}/>
   ))
   return (
-    <div>{renderRecipes}</div>
+    <div className="flex flex-wrap">{recipes.length>0 ? renderRecipes:"No records found!"}</div>
   )
 }
 
