@@ -9,7 +9,7 @@ const Recipes = () => {
     <RecipeCard key={recipe.id} recipe={recipe}/>
   ))
   return (
-    <div className="flex flex-wrap">{recipes.length>0 ? renderRecipes:"No records found!"}</div>
+    <div className="flex flex-wrap p-4">{recipes.length>0 ? renderRecipes:"No records found!"}</div>
   )
 }
 

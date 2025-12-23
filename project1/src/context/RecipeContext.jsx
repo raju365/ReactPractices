@@ -3,7 +3,7 @@ import { createContext, useState } from "react";
 export const recipecontext = createContext(null);
 
 const RecipeContext = ({ children }) => {
-  const [recipes, addRecipes] = useState([
+  const [recipes, setRecipes] = useState([
     {
       id: 1,
       title: "Classic Margherita Pizza",
@@ -35,7 +35,7 @@ const RecipeContext = ({ children }) => {
   console.log(recipes);
 
   return (
-    <recipecontext.Provider value={{ recipes, addRecipes }}>
+    <recipecontext.Provider value={{ recipes, setRecipes }}>
       {children}
     </recipecontext.Provider>
   );

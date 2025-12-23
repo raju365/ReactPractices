@@ -6,24 +6,28 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 const SingleRecipe = () => {
-  const recipe = recipes.find((rec) => params.id == rec.id);
   const navigate = useNavigate();
   const params = useParams();
-  const { recipes, addRecipes } = useContext(recipecontext);
-  const { register, handleSubmit, reset } = useForm();
+  const { recipes, setRecipes } = useContext(recipecontext);
+  const recipe = recipes.find((rec) => params.id == rec.id);
+  const { register, handleSubmit } = useForm();
 
   const submitHandler = (data) => {
+    data.ingredients = data.ingredients.split(",").map((i) => i.trim());
+    data.instructions = data.instructions.split("\n").map((i) => i.trim());
+
     const index = recipes.findIndex((rec) => params.id == rec.id);
     const copyrecipes = [...recipes];
     copyrecipes[index] = { ...copyrecipes[index], ...data };
-    addRecipes(copyrecipes);
+    setRecipes(copyrecipes);
     toast.success("Recipe updated!");
-    reset();
     navigate("/recipes");
   };
   const DeleteHandler = () => {
-    const filteredRecipes = recipes.filter((rec) => params.id != rec.id);
-    addRecipes(filteredRecipes);
+    const filteredRecipes = recipes.filter(
+      (rec) => params.id != rec.id
+    );
+    setRecipes(filteredRecipes);
     toast.success("Recipe deleted!");
     navigate("/recipes");
   };
@@ -96,7 +100,7 @@ const SingleRecipe = () => {
             <div>
               <textarea
                 {...register("ingredients")}
-                defaultValue={recipe.ingredients}
+                defaultValue={recipe.ingredients.join(", ")}
                 placeholder="Ingredients"
                 className="w-full bg-transparent border-b border-gray-500 focus:border-blue-500 outline-none p-2 resize-none h-24"
               />
@@ -106,7 +110,7 @@ const SingleRecipe = () => {
             <div>
               <textarea
                 {...register("instructions")}
-                defaultValue={recipe.instructions}
+                defaultValue={recipe.instructions.join("\n")}
                 placeholder="Cooking Instructions"
                 className="w-full bg-transparent border-b border-gray-500 focus:border-blue-500 outline-none p-2 resize-none h-24"
               />

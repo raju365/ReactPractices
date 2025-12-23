@@ -7,12 +7,19 @@ import { useNavigate } from "react-router-dom";
 
 const CreateRecipe = () => {
   const navigate = useNavigate();
-  const { register, handleSubmit, reset, formState:{errors} } = useForm();
-  const { recipes, addRecipes } = useContext(recipecontext);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+  const { recipes, setRecipes } = useContext(recipecontext);
 
   const submitHandler = (data) => {
     data.id = nanoid();
-    addRecipes([...recipes, data]);
+    data.ingredients = data.ingredients.split(",").map((i) => i.trim());
+    data.instructions = data.instructions.split("\n").map((i) => i.trim());
+    setRecipes([...recipes, data]);
     toast.success("Recipe added successfully!");
     reset();
     navigate("/recipes");
@@ -43,7 +50,9 @@ const CreateRecipe = () => {
           type="url"
           placeholder="Enter image URL"
         />
-        <small className="text-red-400 mb-4 block">{errors?.image?.message}</small>
+        <small className="text-red-400 mb-4 block">
+          {errors?.image?.message}
+        </small>
 
         {/* Title */}
         <input
@@ -52,7 +61,9 @@ const CreateRecipe = () => {
           type="text"
           placeholder="Recipe Title"
         />
-        <small className="text-red-400 mb-4 block">{errors?.title?.message}</small>
+        <small className="text-red-400 mb-4 block">
+          {errors?.title?.message}
+        </small>
 
         {/* Description */}
         <textarea
@@ -60,23 +71,29 @@ const CreateRecipe = () => {
           {...register("description")}
           placeholder="Start writing your recipe..."
         />
-        <small className="text-red-400 mb-4 block">{errors?.description?.message}</small>
+        <small className="text-red-400 mb-4 block">
+          {errors?.description?.message}
+        </small>
 
         {/* Ingredients */}
         <textarea
           className="w-full bg-transparent border-b border-gray-500 outline-none p-2 mb-1 text-white resize-none h-24 sm:h-28"
-          {...register("Ingredients")}
+          {...register("ingredients")}
           placeholder="Start writing your ingredients..."
         />
-        <small className="text-red-400 mb-4 block">{errors?.Ingredients?.message}</small>
+        <small className="text-red-400 mb-4 block">
+          {errors?.Ingredients?.message}
+        </small>
 
         {/* Instructions */}
         <textarea
           className="w-full bg-transparent border-b border-gray-500 outline-none p-2 mb-1 text-white resize-none h-24 sm:h-28"
-          {...register("Instructions")}
+          {...register("instructions")}
           placeholder="Start writing your instructions..."
         />
-        <small className="text-red-400 mb-4 block">{errors?.Instructions?.message}</small>
+        <small className="text-red-400 mb-4 block">
+          {errors?.Instructions?.message}
+        </small>
 
         {/* Category */}
         <select

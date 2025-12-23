@@ -1,16 +1,114 @@
-# React + Vite
+🍽️ Recipe App (React)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive Recipe Application built with React, where users can explore delicious recipes, view details, and create their own recipes.
+The UI is clean, fast, and fully responsive across mobile, tablet, and desktop.
 
-Currently, two official plugins are available:
+🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🏠 Beautiful Home Page
 
-## React Compiler
+Hero section
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Categories
 
-## Expanding the ESLint configuration
+Featured recipes carousel (fully responsive)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+📖 Recipes Listing
+
+Display all recipes using reusable cards
+
+Responsive grid layout
+
+🔍 Recipe Details Page
+
+View ingredients, instructions, and image
+
+➕ Create Recipe
+
+Add new recipes dynamically using Context API
+
+🧠 Global State Management
+
+Implemented using React Context API
+
+🎨 Modern UI
+
+Built with Tailwind CSS
+
+Smooth hover effects & transitions
+
+🛠️ Tech Stack
+
+React
+
+React Router DOM
+
+Context API
+
+Tailwind CSS
+
+React Icons
+
+Vite (or CRA – adjust if needed)
+
+📂 Project Structure
+src/
+│── components/
+│   ├── Navbar.jsx
+│   ├── RecipeCard.jsx
+│
+│── context/
+│   └── RecipeContext.jsx
+│
+│── pages/
+│   ├── Home.jsx
+│   ├── Recipes.jsx
+│   ├── SingleRecipe.jsx
+│   ├── CreateRecipe.jsx
+│   └── About.jsx
+│
+│── routes/
+│   └── MainRoutes.jsx
+│
+│── App.jsx
+│── main.jsx
+
+📦 Installation & Setup
+1️⃣ Clone the repository
+git clone https://github.com/your-username/recipe-app.git
+
+2️⃣ Go to project folder
+cd recipe-app
+
+3️⃣ Install dependencies
+npm install
+
+4️⃣ Start the development server
+npm run dev
+
+
+App will run on:
+
+http://localhost:5173
+
+📌 Important Dependencies
+npm install react-router-dom
+npm install react-icons
+
+🧩 Context API Example
+<recipecontext.Provider value={{ recipes, setRecipes }}>
+  {children}
+</recipecontext.Provider>
+
+
+Used for managing recipes globally across the app.
+
+📱 Responsive Design
+
+✅ Mobile: 1 card per view
+
+✅ Tablet: 2–3 cards per view
+
+✅ Desktop: 4 cards per view
+
+Carousel adjusts automatically based on screen size

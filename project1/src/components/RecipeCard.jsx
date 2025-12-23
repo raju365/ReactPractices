@@ -1,34 +1,50 @@
 import { Link } from "react-router-dom";
-const RecipeCard = (props) => {
-  const { id, image, title, description } = props.recipe;
+
+const RecipeCard = ({ recipe }) => {
+  const { id, image, title, description } = recipe;
+
   return (
     <Link
       to={`/recipes/details/${id}`}
-      className=" 
-        mt-3 mb-3 
-        block 
-        w-full 
-        sm:w-[60%] 
-        md:w-[45%] 
-        lg:w-[30%]
-        rounded-xl 
-        overflow-hidden 
-        shadow-lg 
-        p-4 
+      className="
+        block
+        rounded-xl
+        overflow-hidden
+        shadow-lg
+        m-4
+        
+        bg-gray-800
+        hover:scale-105
+        transition-transform
+        duration-300
+        flex-shrink-0
+        w-full
+        sm:w-[80%]
+        md:w-[75%]
+        lg:w-[40%]
+        xl:w-[40%]
         mx-auto
-        hover:scale-[1.02]
-        transition-transform"
+      "
     >
-      <img
-        className="object-cover w-full h-45 sm:h-50 md:h-55"
-        src={image}
-        alt={title}
-      />
-      <h2 className="mt-3 px-2 text-lg sm:text-xl font-black">{title}</h2>
-      <p className="px-2 pb-3 text-sm sm:text-base text-gray-200">
-        {description.slice(0, 100)}...{""}
-        <small className="text-blue-400 ml-1">more</small>
-      </p>
+      {/* Image */}
+      <div className="w-full h-48 sm:h-56 md:h-60 lg:h-64 overflow-hidden rounded-t-xl">
+        <img
+          src={image}
+          alt={title}
+          className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+        />
+      </div>
+
+      {/* Text Content */}
+      <div className="p-4">
+        <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2 truncate">
+          {title}
+        </h2>
+        <p className="text-sm sm:text-base text-gray-300 line-clamp-3">
+          {description}
+        </p>
+        <span className="text-blue-400 font-medium mt-1 inline-block">more</span>
+      </div>
     </Link>
   );
 };
