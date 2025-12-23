@@ -114,7 +114,7 @@ const Home = () => {
               {featuredRecipes.map((recipe) => (
                 <div
                   key={recipe.id}
-                  className="flex-shrink-0 p-2"
+                  className="shrink-0 p-2"
                   style={{ width: `${100 / cardsPerSlide}%` }}
                 >
                   <RecipeCard recipe={recipe} />

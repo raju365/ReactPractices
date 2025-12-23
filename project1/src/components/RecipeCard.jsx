@@ -12,12 +12,11 @@ const RecipeCard = ({ recipe }) => {
         overflow-hidden
         shadow-lg
         m-4
-        
         bg-gray-800
         hover:scale-105
         transition-transform
         duration-300
-        flex-shrink-0
+        shrink-0
         w-full
         sm:w-[80%]
         md:w-[75%]
