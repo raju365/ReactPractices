@@ -15,11 +15,15 @@ const CreateRecipe = () => {
   } = useForm();
   const { recipes, setRecipes } = useContext(recipecontext);
 
-  const submitHandler = (data) => {
+  const createHandler = (data) => {
     data.id = nanoid();
     data.ingredients = data.ingredients.split(",").map((i) => i.trim());
     data.instructions = data.instructions.split("\n").map((i) => i.trim());
-    setRecipes([...recipes, data]);
+    const copyrecipe = [...recipes];
+    copyrecipe.push(data);
+
+    setRecipes(copyrecipe);
+    localStorage.setItem("recipes", JSON.stringify(copyrecipe));
     toast.success("Recipe added successfully!");
     reset();
     navigate("/recipes");
@@ -28,7 +32,7 @@ const CreateRecipe = () => {
   return (
     <div className="min-h-screen flex justify-center items-start px-4 py-8">
       <form
-        onSubmit={handleSubmit(submitHandler)}
+        onSubmit={handleSubmit(createHandler)}
         className="
           w-full 
           max-w-2xl 

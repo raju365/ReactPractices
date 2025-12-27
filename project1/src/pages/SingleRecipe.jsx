@@ -12,14 +12,16 @@ const SingleRecipe = () => {
   const recipe = recipes.find((rec) => params.id == rec.id);
   const { register, handleSubmit } = useForm();
 
-  const submitHandler = (data) => {
+  const updateHandler = (data) => {
     data.ingredients = data.ingredients.split(",").map((i) => i.trim());
     data.instructions = data.instructions.split("\n").map((i) => i.trim());
 
     const index = recipes.findIndex((rec) => params.id == rec.id);
     const copyrecipes = [...recipes];
     copyrecipes[index] = { ...copyrecipes[index], ...data };
+
     setRecipes(copyrecipes);
+    localStorage.setItem("recipes", JSON.stringify(copyrecipes));
     toast.success("Recipe updated!");
     navigate("/recipes");
   };
@@ -28,6 +30,7 @@ const SingleRecipe = () => {
       (rec) => params.id != rec.id
     );
     setRecipes(filteredRecipes);
+    localStorage.setItem("recipes", JSON.stringify(filteredRecipes));
     toast.success("Recipe deleted!");
     navigate("/recipes");
   };
@@ -63,7 +66,7 @@ const SingleRecipe = () => {
             🍲 Update Recipe
           </h2>
 
-          <form onSubmit={handleSubmit(submitHandler)} className="space-y-5">
+          <form onSubmit={handleSubmit(updateHandler)} className="space-y-5">
             {/* Image */}
             <div>
               <input
