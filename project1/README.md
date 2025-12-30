@@ -1,57 +1,86 @@
-🍽️ Recipe App (React)
+# 🍽️ Recipe App (React)
 
-A modern, responsive Recipe Application built with React, where users can explore delicious recipes, view details, and create their own recipes.
-The UI is clean, fast, and fully responsive across mobile, tablet, and desktop.
+A modern, fast, and fully responsive **Recipe Application** built with **React**.  
+Users can explore recipes, view detailed instructions, create and update their own recipes, and manage favourites — all with a clean UI and smooth UX.
 
-🚀 Features
+---
 
-🏠 Beautiful Home Page
+## ✨ Features
 
-Hero section
+### 🏠 Home Page
+- Beautiful hero section
+- Recipe categories
+- Featured recipes carousel
+- Fully responsive layout
 
-Categories
+---
 
-Featured recipes carousel (fully responsive)
+### 📖 Recipes Listing
+- Display all recipes using reusable cards
+- Responsive grid layout
+- Clean and readable UI
 
-📖 Recipes Listing
+---
 
-Display all recipes using reusable cards
+### 🔍 Recipe Details Page
+- View recipe image, ingredients, and instructions
+- Category tag
+- Add / Remove recipe from favourites ❤️
+- Update or delete recipe
 
-Responsive grid layout
+---
 
-🔍 Recipe Details Page
+### ➕ Create & Update Recipes
+- Add new recipes dynamically
+- Edit existing recipes
+- Form handling using **React Hook Form**
 
-View ingredients, instructions, and image
+---
 
-➕ Create Recipe
+### ❤️ Favourite Recipes
+- Add or remove recipes from favourites
+- Favourite recipes stored using **localStorage**
+- Dedicated **Favourite Page**
+- Instant UI updates using React state
 
-Add new recipes dynamically using Context API
+---
 
-🧠 Global State Management
+### 🚫 404 – Page Not Found
+- Custom, attractive 404 page
+- Go back or return to home easily
 
-Implemented using React Context API
+---
 
-🎨 Modern UI
+### 🧠 Global State Management
+- Implemented using **React Context API**
+- Recipes available across the entire app
 
-Built with Tailwind CSS
+---
 
-Smooth hover effects & transitions
+### 🎨 Modern UI / UX
+- Built with **Tailwind CSS**
+- Smooth hover effects & transitions
+- Dark theme
+- Fully responsive (Mobile / Tablet / Desktop)
 
-🛠️ Tech Stack
+---
 
-React
+## 🛠️ Tech Stack
 
-React Router DOM
+- **React**
+- **React Router DOM**
+- **Context API**
+- **React Hook Form**
+- **Tailwind CSS**
+- **React Icons**
+- **React Toastify**
+- **Vite**
 
-Context API
+---
 
-Tailwind CSS
+## 📂 Project Structure
 
-React Icons
-
-Vite (or CRA – adjust if needed)
-
-📂 Project Structure
+```txt
 src/
 │── components/
 │   ├── Navbar.jsx
@@ -65,7 +94,8 @@ src/
 │   ├── Recipes.jsx
 │   ├── SingleRecipe.jsx
 │   ├── CreateRecipe.jsx
-│   └── About.jsx
+│   ├── Fav.jsx
+│   ├── NotFound.jsx
 │
 │── routes/
 │   └── MainRoutes.jsx
@@ -73,42 +103,42 @@ src/
 │── App.jsx
 │── main.jsx
 
+🔁 Application Flow
+
+Recipes are stored in Context API
+
+Context syncs with localStorage
+
+Users can:
+
+Add / Update / Delete recipes
+
+Mark recipes as favourites
+
+Favourite recipes are stored as recipe IDs
+
+Favourite page filters recipes using stored IDs
+
 📦 Installation & Setup
 1️⃣ Clone the repository
 git clone https://github.com/your-username/recipe-app.git
 
-2️⃣ Go to project folder
+2️⃣ Navigate to project folder
 cd recipe-app
 
 3️⃣ Install dependencies
 npm install
 
-4️⃣ Start the development server
+4️⃣ Start development server
 npm run dev
 
 
-App will run on:
+App runs on:
 
 http://localhost:5173
 
 📌 Important Dependencies
 npm install react-router-dom
 npm install react-icons
-
-🧩 Context API Example
-<recipecontext.Provider value={{ recipes, setRecipes }}>
-  {children}
-</recipecontext.Provider>
-
-
-Used for managing recipes globally across the app.
-
-📱 Responsive Design
-
-✅ Mobile: 1 card per view
-
-✅ Tablet: 2–3 cards per view
-
-✅ Desktop: 4 cards per view
-
-Carousel adjusts automatically based on screen size
+npm install react-hook-form
+npm install react-toastify
