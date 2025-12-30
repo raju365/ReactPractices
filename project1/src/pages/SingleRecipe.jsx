@@ -1,9 +1,10 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { recipecontext } from "../context/RecipeContext";
 import { useForm } from "react-hook-form";
-
+import { FaHeart } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { FaRegHeart } from "react-icons/fa";
 
 const SingleRecipe = () => {
   const navigate = useNavigate();
@@ -19,21 +20,38 @@ const SingleRecipe = () => {
     const index = recipes.findIndex((rec) => params.id == rec.id);
     const copyrecipes = [...recipes];
     copyrecipes[index] = { ...copyrecipes[index], ...data };
-
     setRecipes(copyrecipes);
     localStorage.setItem("recipes", JSON.stringify(copyrecipes));
     toast.success("Recipe updated!");
     navigate("/recipes");
   };
+
   const DeleteHandler = () => {
-    const filteredRecipes = recipes.filter(
-      (rec) => params.id != rec.id
-    );
+    const filteredRecipes = recipes.filter((rec) => params.id != rec.id);
     setRecipes(filteredRecipes);
     localStorage.setItem("recipes", JSON.stringify(filteredRecipes));
     toast.success("Recipe deleted!");
     navigate("/recipes");
   };
+
+  const [favourite, setFavourite] = useState(
+    JSON.parse(localStorage.getItem("fav")) || []
+  );
+
+  const favHandler = () => {
+    const updatedFav = [...favourite, recipe.id];
+    setFavourite(updatedFav);
+    localStorage.setItem("fav", JSON.stringify(updatedFav));
+    toast.success("Added to favourites ❤️");
+  };
+
+  const unfavHandler = () => {
+    const updatedFav = favourite.filter((id) => id !== recipe.id);
+    setFavourite(updatedFav);
+    localStorage.setItem("fav", JSON.stringify(updatedFav));
+    toast.info("Removed from favourites 💔");
+  };
+
   return recipe ? (
     <div className="min-h-screen bg-zinc-900 text-white px-4 sm:px-8 py-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -43,7 +61,18 @@ const SingleRecipe = () => {
             {recipe.title}
           </h1>
 
-          <div className="w-full h-56 sm:h-72 rounded-xl overflow-hidden mb-4">
+          <div className="w-full h-56 sm:h-72 rounded-xl overflow-hidden relative mb-4">
+            {favourite.includes(recipe.id) ? (
+              <FaHeart
+                onClick={unfavHandler}
+                className="right-[5%] absolute text-3xl text-red-400 cursor-pointer"
+              />
+            ) : (
+              <FaRegHeart
+                onClick={favHandler}
+                className="right-[5%] absolute text-3xl text-red-400 cursor-pointer "
+              />
+            )}
             <img
               src={recipe.image}
               alt={recipe.title}
