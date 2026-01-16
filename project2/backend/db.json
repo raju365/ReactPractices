@@ -1,31 +1,23 @@
 {
   "users": [
     {
-      "address": {
-        "geolocation": {
-          "lat": "-37.3159",
-          "long": "81.1496"
-        },
-        "city": "kilcoole",
-        "street": "new road",
-        "number": 7682,
-        "zipcode": "12926-3874"
-      },
-      "id": 1,
-      "email": "john@gmail.com",
-      "username": "johnd",
-      "password": "m38rmF$",
-      "name": {
-        "firstname": "john",
-        "lastname": "doe"
-      },
-      "phone": "1-570-236-7033",
-      "__v": 0
+      "id": "e_qOpRGBmr__xqus_YaHT",
+      "username": "Admin",
+      "email": "Admin@gmail.com",
+      "password": "admin",
+      "isAdmin": true
+    },
+    {
+      "id": "Be1XSWMD1R0-Tyu6_825o",
+      "username": "raju",
+      "email": "raju@gmail.com",
+      "password": "raju123",
+      "isAdmin": false
     }
   ],
   "products": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
       "price": 109.95,
       "description": "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
@@ -38,24 +30,24 @@
   ],
   "carts": [
     {
-    "id": 1,
-    "userId": 1,
-    "date": "2020-03-02T00:00:00.000Z",
-    "products": [
-      {
-        "productId": 1,
-        "quantity": 4
-      },
-      {
-        "productId": 2,
-        "quantity": 1
-      },
-      {
-        "productId": 3,
-        "quantity": 6
-      }
-    ],
-    "__v": 0
-  }
+      "id": "1",
+      "userId": 1,
+      "date": "2020-03-02T00:00:00.000Z",
+      "products": [
+        {
+          "productId": 1,
+          "quantity": 4
+        },
+        {
+          "productId": 2,
+          "quantity": 1
+        },
+        {
+          "productId": 3,
+          "quantity": 6
+        }
+      ],
+      "__v": 0
+    }
   ]
 }
