@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 const Nav = () => {
   const { user } = useSelector((state) => state.userReducer);
   console.log("Navbar user:", user);
-  
+
   const linkClass = ({ isActive }) =>
     isActive
       ? "text-indigo-600 font-semibold relative after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[2px] after:bg-indigo-600"
@@ -25,14 +25,22 @@ const Nav = () => {
           <NavLink to="/products" className={linkClass}>
             Products
           </NavLink>
-
-          {/* Login CTA */}
-          <NavLink
-            to="/login"
-            className="px-4 py-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 transition"
-          >
-            Login
-          </NavLink>
+          {user ? (
+            <>
+              <NavLink to="/admin/create-product" className={linkClass}>
+                Create Product
+              </NavLink>
+            </>
+          ) : (
+            <>
+              <NavLink
+                to="/login"
+                className="px-4 py-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 transition"
+              >
+                Login
+              </NavLink>
+            </>
+          )}
         </div>
       </div>
     </nav>
