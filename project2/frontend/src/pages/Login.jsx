@@ -1,17 +1,19 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { asyncLoginUser } from "../store/actions/userActions";
 import { useDispatch } from "react-redux";
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
+  const navigate = useNavigate();
 const dispatch = useDispatch();
   const LoginHandler = (user) => {
     dispatch(asyncLoginUser(user));
+    navigate("/");
   };
 
   return (
-    <div className="min-h-[100svh] flex items-center justify-center bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 px-4">
+    <div className="min-h-svh flex items-center justify-center bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 px-4">
       
       <div className="w-full max-w-md bg-white rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.08)] p-8">
         

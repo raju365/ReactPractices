@@ -31,15 +31,8 @@ const UpdateProduct = () => {
   }
 
   const UpdateProductHandler = (product) => {
-    dispatch(asyncUpdateProduct(id,product))
-      .then(() => {
-        toast.success("Product updated successfully!");
-        reset();
-        navigate("/admin/products");
-      })
-      .catch(() => {
-        toast.error("Product update failed!");
-      });
+    dispatch(asyncUpdateProduct(id, product))
+      
   };
 
   return (

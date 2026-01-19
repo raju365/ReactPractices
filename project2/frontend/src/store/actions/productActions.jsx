@@ -17,12 +17,20 @@ export const asyncCreateProduct = (product) => async (dispatch, getState) => {
     console.log("Error in asyncCreateProduct action:", error);
   }
 };
-export const asyncUpdateProduct = (product) => async (dispatch, getState) => {
+export const asyncUpdateProduct = (id, product) => async (dispatch, getState) => {
   try {
-    await axios.patch(`/products/${product.id}`, product);
+    await axios.patch("/products/"+id, product);
     dispatch(asyncLoadProducts());
   } catch (error) {
     console.log("Error in asyncUpdateProduct action:", error);
+  }
+};
+export const asyncDeleteProduct = (id) => async (dispatch, getState) => {
+  try {
+    await axios.delete("/products/"+id);
+    dispatch(asyncLoadProducts());
+  } catch (error) {
+    console.log("Error in asyncDeleteProduct action:", error);
   }
 };
 

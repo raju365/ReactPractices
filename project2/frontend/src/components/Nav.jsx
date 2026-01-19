@@ -1,9 +1,17 @@
-import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { asyncLogoutUser } from "../store/actions/userActions";
 const Nav = () => {
-  const { user } = useSelector((state) => state.userReducer);
-  console.log("Navbar user:", user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const currentUser = useSelector((state) => state.userReducer.currentUser);
+  console.log("Navbar users:", currentUser);
+
+  const LogoutHandler = () => {
+    dispatch(asyncLogoutUser());
+    navigate("/");
+  };
   const linkClass = ({ isActive }) =>
     isActive
       ? "text-indigo-600 font-semibold relative after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[2px] after:bg-indigo-600"
@@ -25,11 +33,19 @@ const Nav = () => {
           <NavLink to="/products" className={linkClass}>
             Products
           </NavLink>
-          {user ? (
+          {currentUser ? (
             <>
-              <NavLink to="/admin/create-product" className={linkClass}>
-                Create Product
-              </NavLink>
+              {currentUser?.isAdmin && (
+                <NavLink to="/admin/create-product" className={linkClass}>
+                  Create Product
+                </NavLink>
+              )}
+              <button
+                onClick={LogoutHandler}
+                className="px-4 py-2 rounded-full bg-red-600 text-white hover:bg-red-700 transition"
+              >
+                Logout
+              </button>
             </>
           ) : (
             <>
