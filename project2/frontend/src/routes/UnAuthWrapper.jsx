@@ -1,9 +1,9 @@
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 
-const AuthWrapper = (props) => {
+const UnAuthWrapper = (props) => {
   const { currentUser } = useSelector((state) => state.userReducer);
-  return currentUser ? props.children : <Navigate to="/login" />;
+  return !currentUser ? props.children : <Navigate to="/" />;
 };
 
-export default AuthWrapper;
+export default UnAuthWrapper;

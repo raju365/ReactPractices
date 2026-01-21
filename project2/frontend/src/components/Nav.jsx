@@ -2,13 +2,12 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncLogoutUser } from "../store/actions/userActions";
 import { useState } from "react";
+import { motion } from "motion/react";
 
 const Nav = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const currentUser = useSelector((state) => state.userReducer.currentUser);
-
   const [menuOpen, setMenuOpen] = useState(false);
 
   const LogoutHandler = () => {
@@ -16,87 +15,83 @@ const Nav = () => {
     setMenuOpen(false);
     navigate("/");
   };
-  const cartCount = currentUser?.cart?.reduce(
-  (total, item) => total + item.quantity,
-  0
-) || 0;
-
 
   const linkClass = ({ isActive }) =>
     isActive
-      ? "text-indigo-600 font-semibold"
+      ? "text-indigo-600 font-semibold relative"
       : "text-gray-700 hover:text-gray-900 transition";
 
+  const menuVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { delay: 0.1, duration: 0.5 },
+    },
+  };
+
   return (
-    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
+    <motion.nav
+      initial={{ y: -50, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ type: "spring", stiffness: 80 }}
+      className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200"
+    >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        {/* Logo */}
-        <h1 className="text-xl font-bold text-gray-900">
+        
+        {/* 🟣 Logo Animation */}
+        <motion.h1
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-xl font-bold text-gray-900"
+        >
           Shop<span className="text-indigo-600">X</span>
-        </h1>
+        </motion.h1>
 
-        {/* Desktop Links */}
+        {/* 🟦 Desktop Links */}
         <div className="hidden md:flex items-center gap-8 text-sm">
-          <NavLink to="/" className={linkClass}>
-            Home
-          </NavLink>
+          <motion.div variants={menuVariants} initial="hidden" animate="visible">
+            <NavLink to="/" className={linkClass}>Home</NavLink>
+          </motion.div>
 
-          <NavLink to="/products" className={linkClass}>
-            Products
-          </NavLink>
+          <motion.div variants={menuVariants} initial="hidden" animate="visible">
+            <NavLink to="/products" className={linkClass}>Products</NavLink>
+          </motion.div>
 
-          {currentUser && currentUser.isAdmin && (
-            <NavLink to="/admin/create-product" className={linkClass}>
-              Create Product
-            </NavLink>
+          {currentUser?.isAdmin && (
+            <motion.div variants={menuVariants} initial="hidden" animate="visible">
+              <NavLink to="/admin/create-product" className={linkClass}>
+                Create Product
+              </NavLink>
+            </motion.div>
           )}
 
           {currentUser && (
             <>
-              <NavLink to="/admin/user-profile" className={linkClass}>
-                Settings
-              </NavLink>
-              <NavLink
-                to="/cart"
-                className="relative flex items-center gap-2 text-gray-700 hover:text-gray-900 transition"
-              >
-                {/* Cart Icon */}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.8}
-                  stroke="currentColor"
-                  className="w-5 h-5"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M2.25 3h1.5l1.35 8.1a2.25 2.25 0 002.25 1.9h9.3a2.25 2.25 0 002.2-1.75l1.2-6.75H6"
-                  />
-                  <circle cx="9" cy="20" r="1" />
-                  <circle cx="18" cy="20" r="1" />
-                </svg>
+              <motion.div variants={menuVariants} initial="hidden" animate="visible">
+                <NavLink to="/admin/user-profile" className={linkClass}>
+                  Settings
+                </NavLink>
+              </motion.div>
 
-                <span className="font-medium">Cart</span>
-
-                {/* Badge */}
-                {cartCount > 0 && (
-                  <span className="absolute -top-2 -right-3 bg-indigo-600 text-white text-xs font-bold px-2 py-[2px] rounded-full">
-                    {cartCount}
-                  </span>
-                )}
-              </NavLink>
+              <motion.div variants={menuVariants} initial="hidden" animate="visible">
+                <NavLink to="/cart" className={linkClass}>
+                  Cart
+                </NavLink>
+              </motion.div>
             </>
           )}
 
           {currentUser ? (
-            <button
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               onClick={LogoutHandler}
               className="px-4 py-2 rounded-full bg-red-600 text-white hover:bg-red-700 transition"
             >
               Logout
-            </button>
+            </motion.button>
           ) : (
             <NavLink
               to="/login"
@@ -107,53 +102,58 @@ const Nav = () => {
           )}
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          className="md:hidden flex flex-col gap-1"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          <div
-            className={`h-[3px] w-6 bg-gray-900 transition-all ${
-              menuOpen ? "rotate-45 translate-y-2" : ""
-            }`}
-          ></div>
-          <div
-            className={`h-[3px] w-6 bg-gray-900 transition-all ${
-              menuOpen ? "opacity-0" : ""
-            }`}
-          ></div>
-          <div
-            className={`h-[3px] w-6 bg-gray-900 transition-all ${
-              menuOpen ? "-rotate-45 -translate-y-2" : ""
-            }`}
-          ></div>
-        </button>
+        {/* 🟡 Mobile Menu Button */}
+        <div className="md:hidden">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="flex flex-col gap-1"
+          >
+            <motion.span
+              animate={
+                menuOpen ? "open" : "closed"
+              }
+              variants={{
+                open: { rotate: 45, y: 6 },
+                closed: { rotate: 0, y: 0 },
+              }}
+              className="w-6 h-[3px] bg-gray-900"
+            />
+            <motion.span
+              animate={
+                menuOpen ? { opacity: 0 } : { opacity: 1 }
+              }
+              className="w-6 h-[3px] bg-gray-900"
+            />
+            <motion.span
+              animate={
+                menuOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }
+              }
+              className="w-6 h-[3px] bg-gray-900"
+            />
+          </button>
+        </div>
       </div>
 
-      {/* Mobile Menu */}
-      <div
-        className={`md:hidden bg-white/95 backdrop-blur-xl border-t border-gray-200 absolute w-full left-0 transition-all duration-300 overflow-hidden ${
-          menuOpen ? "h-[300px] opacity-100" : "h-0 opacity-0"
-        }`}
+      {/* 🟢 Mobile Menu */}
+      <motion.div
+        initial={{ height: 0, opacity: 0 }}
+        animate={{
+          height: menuOpen ? "auto" : 0,
+          opacity: menuOpen ? 1 : 0,
+        }}
+        transition={{ duration: 0.4 }}
+        className="md:hidden bg-white/95 border-t overflow-hidden"
       >
-        <div className="flex flex-col px-6 py-4 gap-4 text-sm">
-          <NavLink
-            to="/"
-            className={linkClass}
-            onClick={() => setMenuOpen(false)}
-          >
+        <div className="flex flex-col px-6 py-4 gap-4">
+          <NavLink to="/" className={linkClass} onClick={() => setMenuOpen(false)}>
             Home
           </NavLink>
 
-          <NavLink
-            to="/products"
-            className={linkClass}
-            onClick={() => setMenuOpen(false)}
-          >
+          <NavLink to="/products" className={linkClass} onClick={() => setMenuOpen(false)}>
             Products
           </NavLink>
 
-          {currentUser && currentUser.isAdmin && (
+          {currentUser?.isAdmin && (
             <NavLink
               to="/admin/create-product"
               className={linkClass}
@@ -172,18 +172,13 @@ const Nav = () => {
               >
                 Settings
               </NavLink>
+
               <NavLink
                 to="/cart"
-                className="flex items-center justify-between text-gray-700 hover:text-gray-900 transition"
+                className={linkClass}
                 onClick={() => setMenuOpen(false)}
               >
-                <span className="flex items-center gap-2">🛒 Cart</span>
-
-                {cartCount > 0 && (
-                  <span className="bg-indigo-600 text-white text-xs font-bold px-2 py-[2px] rounded-full">
-                    {cartCount}
-                  </span>
-                )}
+                Cart
               </NavLink>
             </>
           )}
@@ -191,22 +186,22 @@ const Nav = () => {
           {currentUser ? (
             <button
               onClick={LogoutHandler}
-              className="px-4 py-2 w-fit rounded-full bg-red-600 text-white hover:bg-red-700 transition"
+              className="px-4 py-2 rounded-full bg-red-600 text-white hover:bg-red-700 transition w-fit"
             >
               Logout
             </button>
           ) : (
             <NavLink
               to="/login"
-              className="px-4 py-2 w-fit rounded-full bg-indigo-600 text-white hover:bg-indigo-700 transition"
+              className="px-4 py-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 transition w-fit"
               onClick={() => setMenuOpen(false)}
             >
               Login
             </NavLink>
           )}
         </div>
-      </div>
-    </nav>
+      </motion.div>
+    </motion.nav>
   );
 };
 
