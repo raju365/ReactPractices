@@ -72,7 +72,7 @@ const Products = () => {
         hasMore={hasMore}
         loader={<h4 className="text-center">Loading...</h4>}
         endMessage={
-          <p className="text-center mt-4 font-semibold">No more products</p>
+          <p className="text-center mt-4 font-semibold">Yay! You have seen it all.</p>
         }
         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-7xl mx-auto"
       >
