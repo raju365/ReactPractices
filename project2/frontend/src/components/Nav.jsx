@@ -16,6 +16,11 @@ const Nav = () => {
     setMenuOpen(false);
     navigate("/");
   };
+  const cartCount = currentUser?.cart?.reduce(
+  (total, item) => total + item.quantity,
+  0
+) || 0;
+
 
   const linkClass = ({ isActive }) =>
     isActive
@@ -25,7 +30,6 @@ const Nav = () => {
   return (
     <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-
         {/* Logo */}
         <h1 className="text-xl font-bold text-gray-900">
           Shop<span className="text-indigo-600">X</span>
@@ -48,9 +52,42 @@ const Nav = () => {
           )}
 
           {currentUser && (
-            <NavLink to="/admin/user-profile" className={linkClass}>
-              Settings
-            </NavLink>
+            <>
+              <NavLink to="/admin/user-profile" className={linkClass}>
+                Settings
+              </NavLink>
+              <NavLink
+                to="/cart"
+                className="relative flex items-center gap-2 text-gray-700 hover:text-gray-900 transition"
+              >
+                {/* Cart Icon */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.8}
+                  stroke="currentColor"
+                  className="w-5 h-5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M2.25 3h1.5l1.35 8.1a2.25 2.25 0 002.25 1.9h9.3a2.25 2.25 0 002.2-1.75l1.2-6.75H6"
+                  />
+                  <circle cx="9" cy="20" r="1" />
+                  <circle cx="18" cy="20" r="1" />
+                </svg>
+
+                <span className="font-medium">Cart</span>
+
+                {/* Badge */}
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-3 bg-indigo-600 text-white text-xs font-bold px-2 py-[2px] rounded-full">
+                    {cartCount}
+                  </span>
+                )}
+              </NavLink>
+            </>
           )}
 
           {currentUser ? (
@@ -100,7 +137,6 @@ const Nav = () => {
         }`}
       >
         <div className="flex flex-col px-6 py-4 gap-4 text-sm">
-
           <NavLink
             to="/"
             className={linkClass}
@@ -128,13 +164,28 @@ const Nav = () => {
           )}
 
           {currentUser && (
-            <NavLink
-              to="/admin/user-profile"
-              className={linkClass}
-              onClick={() => setMenuOpen(false)}
-            >
-              Settings
-            </NavLink>
+            <>
+              <NavLink
+                to="/admin/user-profile"
+                className={linkClass}
+                onClick={() => setMenuOpen(false)}
+              >
+                Settings
+              </NavLink>
+              <NavLink
+                to="/cart"
+                className="flex items-center justify-between text-gray-700 hover:text-gray-900 transition"
+                onClick={() => setMenuOpen(false)}
+              >
+                <span className="flex items-center gap-2">🛒 Cart</span>
+
+                {cartCount > 0 && (
+                  <span className="bg-indigo-600 text-white text-xs font-bold px-2 py-[2px] rounded-full">
+                    {cartCount}
+                  </span>
+                )}
+              </NavLink>
+            </>
           )}
 
           {currentUser ? (

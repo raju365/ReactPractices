@@ -1,67 +1,117 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { asyncUpdateUser } from "../store/actions/userActions";
+import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
+import axios from "../api/axiosconfig";
+import InfiniteScroll from "react-infinite-scroll-component";
+
+const LIMIT = 6;
 
 const Products = () => {
-  const products = useSelector((state) => state.productReducer.products);
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.userReducer.currentUser);
 
-  const renderProducts = products.map((product) => {
-    return (
-      <div
-        key={product.id}
-        className="bg-white/70 backdrop-blur-xl shadow-xl rounded-3xl p-5 flex flex-col hover:scale-[1.02] transition-all duration-300 border border-gray-200"
-      >
-        {/* Product Image */}
-        <div className="w-full h-48 overflow-hidden rounded-2xl flex items-center justify-center bg-gray-100">
-          <img
-            src={product.image}
-            alt={product.title}
-            className="h-full w-auto object-cover"
-          />
-        </div>
+  const [products, setProducts] = useState([]);
 
-        {/* Product Info */}
-        <h2 className="text-xl font-bold mt-4 text-gray-800 line-clamp-1">
-          {product.title}
-        </h2>
+  const [hasMore, setHasMore] = useState(true);
 
-        <p className="text-indigo-600 font-semibold text-lg mt-1">
-          ₹ {product.price}
-        </p>
+  // 🟢 Fetch products function
+  const fetchMoreProducts = async () => {
+    try {
+      const { data } = await axios.get(
+        `/products?_limit=${LIMIT}&_start=${products.length}`
+      );
 
-        <p className="text-gray-600 mt-2 text-sm line-clamp-2">
-          {product.description}
-        </p>
+      if (data.length === 0) {
+        setHasMore(false);
+        return;
+      }
+      setProducts([...products, ...data]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-        {/* Actions */}
-        <div className="mt-auto flex items-center justify-between pt-4">
-          <Link
-            to={`/product/${product.id}`}
-            className="text-sm px-4 py-2 bg-gray-900 text-white rounded-xl hover:bg-gray-700 transition-all"
-          >
-            View Details
-          </Link>
+  // Load first page
+  useEffect(() => {
+    fetchMoreProducts();
+  }, []);
 
-          <button className="px-4 py-2 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition-all text-sm">
-            Add To Cart
-          </button>
-        </div>
-      </div>
-    );
-  });
+  const addToCertHandler = (id) => {
+    if (!currentUser) {
+      alert("Please login first!");
+      return;
+    }
+
+    const cartCopy = currentUser.cart?.map((i) => ({ ...i })) || [];
+
+    const index = cartCopy.findIndex((i) => i.productId == id);
+
+    if (index === -1) {
+      cartCopy.push({ productId: id, quantity: 1 });
+    } else {
+      cartCopy[index].quantity += 1;
+    }
+
+    const updatedUser = { ...currentUser, cart: cartCopy };
+
+    dispatch(asyncUpdateUser(updatedUser.id, updatedUser));
+    toast.success("Product added to cart!");
+  };
 
   return (
-    <div className="min-h-svh bg-linear-to-br from-gray-100 via-gray-200 to-gray-300 py-10 px-4">
+    <div className="min-h-svh bg-gray-100 py-10 px-4">
       <h1 className="text-4xl font-extrabold text-center text-gray-900 mb-10">
         Our Products ✨
       </h1>
 
-      {products.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-          {renderProducts}
-        </div>
-      ) : (
-        <p className="text-center text-gray-600 text-lg">No Products Available</p>
-      )}
+      <InfiniteScroll
+        dataLength={products.length}
+        next={fetchMoreProducts}
+        hasMore={hasMore}
+        loader={<h4 className="text-center">Loading...</h4>}
+        endMessage={
+          <p className="text-center mt-4 font-semibold">No more products</p>
+        }
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-7xl mx-auto"
+      >
+        {products.map((product) => (
+          <div
+            key={product.id}
+            className="bg-white shadow-xl rounded-3xl p-5 flex flex-col"
+          >
+            <div className="w-full h-48 flex items-center justify-center overflow-hidden rounded-xl bg-gray-100">
+              <img
+                src={product.image}
+                alt={product.title}
+                className="object-contain h-full"
+              />
+            </div>
+
+            <h2 className="text-xl font-bold mt-4">{product.title}</h2>
+            <p className="text-indigo-600 font-semibold text-lg">
+              ₹ {product.price}
+            </p>
+
+            <div className="mt-auto flex justify-between pt-4">
+              <Link
+                to={`/product/${product.id}`}
+                className="px-4 py-2 bg-gray-900 text-white rounded-xl text-sm"
+              >
+                View Details
+              </Link>
+
+              <button
+                onClick={() => addToCertHandler(product.id)}
+                className="px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm"
+              >
+                Add To Cart
+              </button>
+            </div>
+          </div>
+        ))}
+      </InfiniteScroll>
     </div>
   );
 };

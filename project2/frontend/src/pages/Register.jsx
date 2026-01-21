@@ -17,6 +17,7 @@ const Register = () => {
   const RegisterHandler = async (user) => {
     user.id = nanoid();
     user.isAdmin = false;
+    user.cart = [];
     dispatch(asyncRegisterUser(user))
       .then(() => {
         toast.success("Registration successful!");

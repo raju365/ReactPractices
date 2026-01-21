@@ -42,8 +42,8 @@ export const asyncLoginUser = (user) => async (dispatch, getState) => {
 
 export const asyncRegisterUser = (user) => async (dispatch, getState) => {
   try {
-    const res = await axios.post("/users", user);
-    console.log(res.data);
+    await axios.post("/users", user);
+    
   } catch (error) {
     console.log("Error in asyncRegisterUser action:", error);
   }
@@ -51,19 +51,17 @@ export const asyncRegisterUser = (user) => async (dispatch, getState) => {
 export const asyncUpdateUser = (id, user) => async (dispatch, getState) => {
   try {
     const { data } = await axios.patch("/users/" + id, user);
-    dispatch(asyncCurrentUser());
-    console.log(data);
     localStorage.setItem("user", JSON.stringify(data));
+    dispatch(asyncCurrentUser());
   } catch (error) {
     console.log("Error in asyncUpdateUser action:", error);
   }
 };
 export const asyncDeleteUser = (id) => async (dispatch, getState) => {
   try {
-    const { data } = await axios.delete("/users/" + id);
-    dispatch(asyncCurrentUser());
-    console.log(data);
-    localStorage.setItem("user", JSON.stringify(data));
+    await axios.delete("/users/" + id);
+    dispatch(asyncLogoutUser());
+   
   } catch (error) {
     console.log("Error in asyncDeleteUser action:", error);
   }

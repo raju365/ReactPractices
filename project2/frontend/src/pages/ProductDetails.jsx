@@ -5,6 +5,7 @@ import {
   asyncDeleteProduct,
   asyncUpdateProduct,
 } from "../store/actions/productActions";
+import { toast } from "react-toastify";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -26,10 +27,13 @@ const ProductDetails = () => {
   const UpdateProductHandler = (product) => {
     // Dispatch update action here
     dispatch(asyncUpdateProduct(id, product));
+    toast.success("Product updated successfully!");
+    Navigate("/products");
   };
   const deleteProductHandler = () => {
     // Dispatch delete action here
     dispatch(asyncDeleteProduct(id));
+    toast.success("Product deleted successfully!");
     Navigate("/products");
   };
 
